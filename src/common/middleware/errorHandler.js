@@ -1,4 +1,7 @@
 import winston from "winston";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Create a Winston logger
 const logger = winston.createLogger({
@@ -23,7 +26,9 @@ const errorHandler = (error, request, reply) => {
   // Send error response
   reply.status(error.statusCode || 500).send({
     error: {
-      message: error.message || "Internal Server Error",
+      message: 
+        ((process.env.NODE_ENV === "development") 
+          ? error.message : false) || "Internal Server Error",
     },
   });
 };
